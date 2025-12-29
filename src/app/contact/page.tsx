@@ -35,7 +35,7 @@ export default function ContactPage() {
             // USER TO FILL: template_id
             await emailjs.send(
                 'service_nzekl47',
-                'YOUR_TEMPLATE_ID', // <--- Please paste your Template ID here
+                'template_mbhy0ud', // Template ID updated
                 templateParams,
                 '-LdwnRPTg9ImjZAhW'
             );
