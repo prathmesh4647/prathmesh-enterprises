@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -21,14 +22,32 @@ export default function ContactPage() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate form submission (Replace with EmailJS or Formspree logic)
-        console.log('Form Data:', formData);
+        try {
+            const templateParams = {
+                to_name: "Prathmesh Enterprises",
+                from_name: formData.name,
+                from_email: "User (Mobile: " + formData.mobile + ")", // Adjust based on your template
+                phone: formData.mobile,
+                service: formData.service,
+                message: formData.message,
+            };
 
-        await new Promise(resolve => setTimeout(resolve, 1500));
+            // USER TO FILL: template_id
+            await emailjs.send(
+                'service_nzekl47',
+                'YOUR_TEMPLATE_ID', // <--- Please paste your Template ID here
+                templateParams,
+                '-LdwnRPTg9ImjZAhW'
+            );
 
-        setIsSubmitted(true);
-        setIsSubmitting(false);
-        setFormData({ name: '', mobile: '', service: 'New Installation', message: '' });
+            setIsSubmitted(true);
+            setFormData({ name: '', mobile: '', service: 'New Installation', message: '' });
+        } catch (error) {
+            console.error('FAILED...', error);
+            alert("Failed to send message. Please try again or call us directly.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
